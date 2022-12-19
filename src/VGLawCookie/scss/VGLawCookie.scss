@@ -1,30 +1,31 @@
 .vg-lawCookie {
-	--ls-bottom: 0;
-	--ls-top: auto;
-	--ls-left: -100%;
-	--ls-left-show: 0;
-	--ls-right: auto;
-	--ls-right-show: auto;
-	--ls-width: 50%;
-	--ls-transition: all .4s ease-in-out;
-	--ls-padding: 1rem;
+	--lc-bottom: 0;
+	--lc-top: auto;
+	--lc-left: -100%;
+	--lc-left-show: 0;
+	--lc-right: auto;
+	--lc-right-show: auto;
+	--lc-width: 50%;
+	--lc-transition: all .4s ease-in-out;
+	--lc-padding: 1rem;
 	position: fixed;
 	visibility: hidden;
-	padding: var(--ls-padding);
-	width: var(--ls-width);
-	bottom: var(--ls-bottom);
-	top: var(--ls-top);
-	left: var(--ls-left);
-	right: var(--ls-right);
-	transition: var(--ls-transition);
+	z-index: 10000;
+	padding: var(--lc-padding);
+	width: var(--lc-width);
+	bottom: var(--lc-bottom);
+	top: var(--lc-top);
+	left: var(--lc-left);
+	right: var(--lc-right);
+	transition: var(--lc-transition);
 
 	&--content {
-		--ls-content-background: white;
-		--ls-content-box-shadow: 0 0 14px 6px rgba(0, 0, 0, 10%);
-		--ls-content-padding: 1rem;
-		background-color: var(--ls-content-background);
-		box-shadow: var(--ls-content-box-shadow);
-		padding: var(--ls-content-padding);
+		--lc-content-background: white;
+		--lc-content-box-shadow: 0 0 14px 6px rgba(0, 0, 0, 10%);
+		--lc-content-padding: 1rem;
+		background-color: var(--lc-content-background);
+		box-shadow: var(--lc-content-box-shadow);
+		padding: var(--lc-content-padding);
 
 		p {
 			&:last-child {
@@ -35,7 +36,7 @@
 
 	&.show {
 		visibility: visible;
-		left: var(--ls-left-show);
-		right: var(--ls-right-show);
+		left: var(--lc-left-show);
+		right: var(--lc-right-show);
 	}
 }
