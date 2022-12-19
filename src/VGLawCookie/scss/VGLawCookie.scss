@@ -1,0 +1,41 @@
+.vg-lawCookie {
+	--ls-bottom: 0;
+	--ls-top: auto;
+	--ls-left: -100%;
+	--ls-left-show: 0;
+	--ls-right: auto;
+	--ls-right-show: auto;
+	--ls-width: 50%;
+	--ls-transition: all .4s ease-in-out;
+	--ls-padding: 1rem;
+	position: absolute;
+	visibility: hidden;
+	padding: var(--ls-padding);
+	width: var(--ls-width);
+	bottom: var(--ls-bottom);
+	top: var(--ls-top);
+	left: var(--ls-left);
+	right: var(--ls-right);
+	transition: var(--ls-transition);
+
+	&--content {
+		--ls-content-background: white;
+		--ls-content-box-shadow: 0 0 14px 6px rgba(0, 0, 0, 10%);
+		--ls-content-padding: 1rem;
+		background-color: var(--ls-content-background);
+		box-shadow: var(--ls-content-box-shadow);
+		padding: var(--ls-content-padding);
+
+		p {
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	&.show {
+		visibility: visible;
+		left: var(--ls-left-show);
+		right: var(--ls-right-show);
+	}
+}
