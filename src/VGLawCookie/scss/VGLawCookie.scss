@@ -8,7 +8,7 @@
 	--ls-width: 50%;
 	--ls-transition: all .4s ease-in-out;
 	--ls-padding: 1rem;
-	position: absolute;
+	position: fixed;
 	visibility: hidden;
 	padding: var(--ls-padding);
 	width: var(--ls-width);
