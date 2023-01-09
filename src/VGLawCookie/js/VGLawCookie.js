@@ -13,6 +13,7 @@ class VGLawCookie {
 		this.container = document.getElementById('vg-lawCookie');
 
 		this.settings = Object.assign({
+			attributes: {},
 			content: {
 				text: {
 					default: 'Наш сайт использует файлы «cookie» для удобства пользования веб-сайтом. «Cookie» представляют собой небольшие файлы, содержащие информацию о предыдущих посещениях веб-сайта. Продолжая использовать наш сайт, вы даете согласие на их обработку.',
@@ -61,7 +62,7 @@ class VGLawCookie {
 			let btnConfirm = _this.container.querySelector('[data-lc-confirm]');
 			btnConfirm.onclick = function () {
 				_this.container.classList.remove('show');
-				Cookies.set('lawCookie', 'yes');
+				Cookies.set('lawCookie', 'yes', _this.settings.attributes);
 
 				return false;
 			};
