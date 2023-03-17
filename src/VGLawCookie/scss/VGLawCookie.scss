@@ -19,6 +19,18 @@
 	right: var(--lc-right);
 	transition: var(--lc-transition);
 
+	@media only screen and (max-width: 1400px){
+		--lc-width: 70%
+	}
+
+	@media only screen and (max-width: 1200px) {
+		--lc-width: 90%
+	}
+
+	@media only screen and (max-width: 991px) {
+		--lc-width: 100%
+	}
+
 	&--content {
 		--lc-content-background: white;
 		--lc-content-box-shadow: 0 0 14px 6px rgba(0, 0, 0, 10%);
