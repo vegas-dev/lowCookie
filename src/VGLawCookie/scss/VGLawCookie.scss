@@ -5,9 +5,10 @@
 	--lc-left-show: 0;
 	--lc-right: auto;
 	--lc-right-show: auto;
-	--lc-width: 50%;
+	--lc-width: 40%;
 	--lc-transition: all .4s ease-in-out;
 	--lc-padding: 1rem;
+
 	position: fixed;
 	visibility: hidden;
 	z-index: 10000;
@@ -20,14 +21,18 @@
 	transition: var(--lc-transition);
 
 	@media only screen and (max-width: 1400px){
-		--lc-width: 70%
+		--lc-width: 50%
 	}
 
 	@media only screen and (max-width: 1200px) {
-		--lc-width: 90%
+		--lc-width: 60%
 	}
 
 	@media only screen and (max-width: 991px) {
+		--lc-width: 60%
+	}
+
+	@media only screen and (max-width: 767px) {
 		--lc-width: 100%
 	}
 
@@ -43,6 +48,22 @@
 			&:last-child {
 				margin-bottom: 0;
 			}
+		}
+
+		.text-content {
+			height: auto;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			transition: height .4s ease-in-out;
+		}
+
+		.btn-area {
+			display: flex;
+			justify-content: space-between;
+			align-items: end;
 		}
 	}
 

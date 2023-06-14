@@ -17,10 +17,14 @@ class VGLawCookie {
 			content: {
 				text: {
 					default: 'Наш сайт использует файлы «cookie» для удобства пользования веб-сайтом. «Cookie» представляют собой небольшие файлы, содержащие информацию о предыдущих посещениях веб-сайта. Продолжая использовать наш сайт, вы даете согласие на их обработку.',
-					btn: 'Я согласен(а)'
+					btn1: 'Я согласен(а)',
+					btn2: 'Подробнее'
 				},
 				btn: {
 					classes: ['btn', 'btn-primary']
+				},
+				lineClamp: {
+					height: 48,
 				}
 			}
 		}, arg);
@@ -38,16 +42,31 @@ class VGLawCookie {
 			_this.container.setAttribute('id', 'vg-lawCookie');
 			_this.container.classList.add('vg-lawCookie');
 
-			_this.container.insertAdjacentHTML('beforeend','<div class="vg-lawCookie--content">'+
-				'<p>' + _this.settings.content.text.default +'</p>' +
-				'<p><a href="#" data-lc-confirm>' + _this.settings.content.text.btn +'</a></p>' +
-			'</div>');
+			_this.container.insertAdjacentHTML('beforeend',`
+				<div class="vg-lawCookie--content">
+					<p class="text-content" style="height: ${_this.settings.content.lineClamp.height}px">
+						${_this.settings.content.text.default}
+					</p>
+					<p class="btn-area">
+						<a href="#" data-lc-confirm>${_this.settings.content.text.btn1}</a>
+						<a href="#" data-lc-more>${_this.settings.content.text.btn2}</a>
+					</p>
+				</div>
+			`);
 
 			if (_this.settings.content.btn.classes.length) {
 				let btn = _this.container.querySelector('[data-lc-confirm]');
+				let btn2 = _this.container.querySelector('[data-lc-more]');
 
 				for (let cl of _this.settings.content.btn.classes) {
 					btn.classList.add(cl);
+				}
+
+				btn2.onclick = (e) => {
+					e.preventDefault();
+					let text = document.querySelector('.text-content');
+
+					text.style.height = `${text.scrollHeight}px`;
 				}
 			}
 
