@@ -50,16 +50,6 @@
 			}
 		}
 
-		.text-content {
-			height: auto;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			display: -webkit-box;
-			-webkit-line-clamp: 2;
-			-webkit-box-orient: vertical;
-			transition: height .4s ease-in-out;
-		}
-
 		.btn-area {
 			display: flex;
 			justify-content: space-between;

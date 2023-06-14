@@ -9,27 +9,32 @@
 import Cookies from "./cookie/js.cookie.mjs";
 
 class VGLawCookie {
-	constructor (arg) {
+	constructor(arg) {
 		this.container = document.getElementById('vg-lawCookie');
 
 		this.settings = Object.assign({
 			attributes: {},
 			content: {
 				text: {
-					default: 'Наш сайт использует файлы «cookie» для удобства пользования веб-сайтом. «Cookie» представляют собой небольшие файлы, содержащие информацию о предыдущих посещениях веб-сайта. Продолжая использовать наш сайт, вы даете согласие на их обработку.',
-					btn1: 'Я согласен(а)',
+					default: 'Используя данный сайт, вы даете согласие на использование файлов cookie.',
+					btn1: 'Хорошо',
 					btn2: 'Подробнее'
 				},
 				btn: {
 					classes: ['btn', 'btn-primary']
 				},
-				lineClamp: {
-					height: 48,
-				}
-			}
+			},
+			privacyLink: '',
 		}, arg);
 
 		this.init();
+	}
+
+	privacyLink() {
+		if (this.settings.privacyLink) {
+			return `<a href="${this.settings.privacyLink}" data-lc-more>${this.settings.content.text.btn2}</a>`
+		}
+		return ''
 	}
 
 	init() {
@@ -42,31 +47,23 @@ class VGLawCookie {
 			_this.container.setAttribute('id', 'vg-lawCookie');
 			_this.container.classList.add('vg-lawCookie');
 
-			_this.container.insertAdjacentHTML('beforeend',`
+			_this.container.insertAdjacentHTML('beforeend', `
 				<div class="vg-lawCookie--content">
-					<p class="text-content" style="height: ${_this.settings.content.lineClamp.height}px">
+					<p class="text-content">
 						${_this.settings.content.text.default}
 					</p>
 					<p class="btn-area">
 						<a href="#" data-lc-confirm>${_this.settings.content.text.btn1}</a>
-						<a href="#" data-lc-more>${_this.settings.content.text.btn2}</a>
+						${_this.privacyLink()}
 					</p>
 				</div>
 			`);
 
 			if (_this.settings.content.btn.classes.length) {
 				let btn = _this.container.querySelector('[data-lc-confirm]');
-				let btn2 = _this.container.querySelector('[data-lc-more]');
 
 				for (let cl of _this.settings.content.btn.classes) {
 					btn.classList.add(cl);
-				}
-
-				btn2.onclick = (e) => {
-					e.preventDefault();
-					let text = document.querySelector('.text-content');
-
-					text.style.height = `${text.scrollHeight}px`;
 				}
 			}
 
