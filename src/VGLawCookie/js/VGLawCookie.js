@@ -6,14 +6,11 @@
  * --------------------------------------------------------------------------
  */
 
-import Cookies from "./cookie/js.cookie.mjs";
-
 class VGLawCookie {
 	constructor(arg) {
 		this.container = document.getElementById('vg-lawCookie');
 
 		this.settings = Object.assign({
-			attributes: {},
 			content: {
 				text: {
 					default: 'Используя данный сайт, вы даете согласие на использование файлов cookie.',
@@ -39,7 +36,7 @@ class VGLawCookie {
 
 	init() {
 		let _this = this,
-			getCookie = Cookies.get('lawCookie');
+			getCookie = localStorage.getItem('lawCookie');
 
 		if (!_this.container) {
 			_this.container = document.createElement('div');
@@ -78,7 +75,7 @@ class VGLawCookie {
 			let btnConfirm = _this.container.querySelector('[data-lc-confirm]');
 			btnConfirm.onclick = function () {
 				_this.container.classList.remove('show');
-				Cookies.set('lawCookie', 'yes', _this.settings.attributes);
+				localStorage.setItem('lawCookie', 'yes');
 
 				return false;
 			};
