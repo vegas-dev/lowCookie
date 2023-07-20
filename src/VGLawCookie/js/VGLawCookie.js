@@ -6,37 +6,67 @@
  * --------------------------------------------------------------------------
  */
 
+import Cookies from "./cookie/js.cookie.mjs";
+
 class VGLawCookie {
-	constructor(arg) {
+	constructor(arg = {}) {
 		this.container = document.getElementById('vg-lawCookie');
 
-		this.settings = Object.assign({
+		let params = {
 			content: {
 				text: {
 					default: 'Используя данный сайт, вы даете согласие на использование файлов cookie.',
-					btn1: 'Хорошо',
-					btn2: 'Подробнее'
+					btnSuccess: 'Хорошо',
+					btnMore: 'Подробнее'
 				},
 				btn: {
 					classes: ['btn', 'btn-primary']
 				},
 			},
 			privacyLink: '',
-		}, arg);
+			enableCookie: false,
+			cookie: {
+				name: 'lawCookie',
+				value: 'yes',
+				attributes: {}
+			}
+		};
+
+		this.settings = mergeDeep(params, arg);
 
 		this.init();
-	}
 
-	privacyLink() {
-		if (this.settings.privacyLink) {
-			return `<a href="${this.settings.privacyLink}" data-lc-more>${this.settings.content.text.btn2}</a>`
+		/**
+		 * @param objects
+		 * @returns {*}
+		 */
+		function mergeDeep(...objects) {
+			const isObject = obj => obj && typeof obj === 'object';
+
+			return objects.reduce((prev, obj) => {
+				Object.keys(obj).forEach(key => {
+					const pVal = prev[key];
+					const oVal = obj[key];
+
+					if (Array.isArray(pVal) && Array.isArray(oVal)) {
+						prev[key] = pVal.concat(...oVal);
+					}
+					else if (isObject(pVal) && isObject(oVal)) {
+						prev[key] = mergeDeep(pVal, oVal);
+					}
+					else {
+						prev[key] = oVal;
+					}
+				});
+
+				return prev;
+			}, {});
 		}
-		return ''
 	}
 
 	init() {
 		let _this = this,
-			getCookie = localStorage.getItem('lawCookie');
+			getCookie = _this.storage(true);
 
 		if (!_this.container) {
 			_this.container = document.createElement('div');
@@ -50,7 +80,7 @@ class VGLawCookie {
 						${_this.settings.content.text.default}
 					</p>
 					<p class="btn-area">
-						<a href="#" data-lc-confirm>${_this.settings.content.text.btn1}</a>
+						<a href="#" data-lc-confirm>${_this.settings.content.text.btnSuccess}</a>
 						${_this.privacyLink()}
 					</p>
 				</div>
@@ -75,11 +105,70 @@ class VGLawCookie {
 			let btnConfirm = _this.container.querySelector('[data-lc-confirm]');
 			btnConfirm.onclick = function () {
 				_this.container.classList.remove('show');
-				localStorage.setItem('lawCookie', 'yes');
+				_this.storage(false, true);
 
 				return false;
 			};
 		}
+	}
+
+	storage(get = false, set = false) {
+		let _this = this,
+			cookie_name = _this.settings.cookie.name,
+			cookie_value = _this.settings.cookie.value,
+			cookie_attr = _this.settings.cookie.attributes,
+			storage = null,
+			isCookie = _this.settings.enableCookie;
+
+		if (isCookie) {
+			storage = Cookies;
+		} else {
+			storage = localStorage;
+		}
+
+		if (get) {
+			if (isCookie) {
+				return storage.get(cookie_name);
+			} else {
+				return storage.getItem(cookie_name);
+			}
+		} else if (set) {
+			if (isCookie) {
+				return storage.set(cookie_name, cookie_value, cookie_attr);
+			} else {
+				return storage.setItem(cookie_name, cookie_value);
+			}
+		}
+	}
+
+	privacyLink() {
+		let str = '';
+
+		if (this.settings.privacyLink) {
+			str `<a href="${this.settings.privacyLink}" data-lc-more>${this.settings.content.text.btnMore}</a>`
+		}
+
+		return str;
+	}
+
+	clear(all = true) {
+		let _this = this;
+
+		if (all) {
+			Cookies.remove(_this.settings.cookie.name);
+			localStorage.clear();
+		} else {
+			if (_this.settings.enableCookie) {
+				Cookies.remove(_this.settings.cookie.name);
+			} else {
+				localStorage.clear();
+			}
+		}
+
+		console.log(Cookies);
+		console.log(localStorage);
+
+		return false;
 	}
 }
 
