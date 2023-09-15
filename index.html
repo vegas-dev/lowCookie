@@ -30,9 +30,18 @@
 	</header>
 </div>
 
+<div id="vg-lawCookie" class="vg-lawCookie">
+	<div class="vg-lawCookie--content">
+		<p>Наш сайт использует файлы «cookie» для удобства пользования веб-сайтом. «Cookie» представляют собой небольшие файлы, содержащие информацию о предыдущих посещениях веб-сайта. Продолжая использовать наш сайт, вы даете согласие на их обработку.</p>
+		<p><a href="#" data-lc-confirm>Хорошо</a></p>
+	</div>
+</div>
+
 <script src="./dist/vglawcookie.umd.js"></script>
 <script>
-	new VGLawCookie();
+	new VGLawCookie({
+		enableLinkMore: true,
+	});
 </script>
 </body>
 </html>

@@ -14,17 +14,19 @@ class VGLawCookie {
 
 		let params = {
 			content: {
-				text: {
-					default: 'Используя данный сайт, вы даете согласие на использование файлов cookie.',
-					btnSuccess: 'Хорошо',
-					btnMore: 'Подробнее'
+				text: 'Используя данный сайт, вы даете согласие на использование файлов cookie.',
+				btnAccept: {
+					classes: ['btn', 'btn-primary'],
+					text: 'Принять',
 				},
-				btn: {
-					classes: ['btn', 'btn-primary']
-				},
+				btnMore: {
+					classes: ['btn', 'btn-link'],
+					text: 'Подробнее',
+					link: '/privacy-policy'
+				}
 			},
-			privacyLink: '',
-			enableCookie: false,
+			storage: 'local', // or cookie
+			enableLinkMore: false,
 			cookie: {
 				name: 'lawCookie',
 				value: 'yes',
@@ -77,19 +79,27 @@ class VGLawCookie {
 			_this.container.insertAdjacentHTML('beforeend', `
 				<div class="vg-lawCookie--content">
 					<p class="text-content">
-						${_this.settings.content.text.default}
+						${_this.settings.content.text}
 					</p>
 					<p class="btn-area">
-						<a href="#" data-lc-confirm>${_this.settings.content.text.btnSuccess}</a>
-						${_this.privacyLink()}
+						<button data-lc-confirm>${_this.settings.content.btnAccept.text}</button>
+						${_this.setLinkMore()}
 					</p>
 				</div>
 			`);
 
-			if (_this.settings.content.btn.classes.length) {
+			if (_this.settings.content.btnAccept.classes.length) {
 				let btn = _this.container.querySelector('[data-lc-confirm]');
 
-				for (let cl of _this.settings.content.btn.classes) {
+				for (let cl of _this.settings.content.btnAccept.classes) {
+					btn.classList.add(cl);
+				}
+			}
+
+			if (_this.settings.content.btnMore.classes.length) {
+				let btn = _this.container.querySelector('[data-lc-more]');
+
+				for (let cl of _this.settings.content.btnMore.classes) {
 					btn.classList.add(cl);
 				}
 			}
@@ -118,7 +128,7 @@ class VGLawCookie {
 			cookie_value = _this.settings.cookie.value,
 			cookie_attr = _this.settings.cookie.attributes,
 			storage = null,
-			isCookie = _this.settings.enableCookie;
+			isCookie = _this.settings.storage === 'cookie';
 
 		if (isCookie) {
 			storage = Cookies;
@@ -141,24 +151,25 @@ class VGLawCookie {
 		}
 	}
 
-	privacyLink() {
-		let str = '';
+	setLinkMore() {
+		let _this = this,
+			str = '';
 
-		if (this.settings.privacyLink) {
-			str `<a href="${this.settings.privacyLink}" data-lc-more>${this.settings.content.text.btnMore}</a>`
+		if (_this.settings.enableLinkMore) {
+			str = `<a href="${_this.settings.content.btnMore.link}" data-lc-more>${_this.settings.content.btnMore.text}</a>`;
 		}
 
 		return str;
 	}
 
-	clear(all = true) {
-		let _this = this;
+	static clear(all = true) {
+		const _this = new this;
 
 		if (all) {
 			Cookies.remove(_this.settings.cookie.name);
 			localStorage.clear();
 		} else {
-			if (_this.settings.enableCookie) {
+			if (_this.settings.storage === 'cookie') {
 				Cookies.remove(_this.settings.cookie.name);
 			} else {
 				localStorage.clear();
